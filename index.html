@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Digital Associates</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="app/assets/bootstrap/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="app/assets/awesome/css/all.css">
+
+    <!-- custom CSS -->
+    <!-- <link href="app/assets/css/style.css" rel="stylesheet" />  MBE -->
+    <link href="app/assets/css/custom.css" rel="stylesheet" />
+    <link href="app/assets/css/animate.css" rel="stylesheet" />
+
+</head>
+<body class="overflow-hidden">
+
+    <!-- our navBar will be injected here -->
+  <div id="nav"></div>
+
+  <!-- our app will be injected here -->
+  <div id="app">
+    <div class='container-fluid'>
+      <div class="row">
+        <div class="col-md- pl-5 pt-4 ">
+            <h1 class="display-4 text-muted " id='page-title'></h1>
+        </div>
+      </div>
+      <!-- this is where alerts will be shown. -->
+      <div id='page-alert'></div>
+
+      <!-- this is where the contents will be shown. -->
+      <div id='page-content'></div>
+    </div>
+  </div>
+
+  <!-- jQuery library -->
+  <script src="app/assets/js/jquery-3.4.1.js"></script>
+
+  <!-- bootstrap JavaScript
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="app/assets/bootstrap/js/bootstrap.min.js"></script>
+ -->
+ <script src="app/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- bootbox for confirm pop up -->
+  <script src="app/assets/js/bootbox.min.js"></script>
+  <script src="app/assets/js/bootbox.locales.min.js"></script>
+
+  <!-- moment.js -->
+  <script src="app/assets/js/moment.min.js"></script>
+
+  <!-- Graphique Tools personnal library -->
+  <script src="app/assets/chart.js/Chart.bundle.js"></script>
+  
+  <!-- Tools personnal library -->
+  <script src="app/tools/tools.js"></script>
+
+  <!-- app js script -->
+  <script src="app/app.js"></script>
+  <script src="app/tools/dialog.js"></script>
+  <script src="app/tools/graph.js"></script>
+
+  <!-- Screen scripts -->
+  <script src="app/views/register/register.js"></script>
+  <script src="app/views/login/login.js"></script>
+  <script src="app/views/home/home.js"></script>
+  <script src="app/views/users/users.js"></script>
+  <script src="app/views/associates/associates.js"></script>
+  <script src="app/views/reports/reports.js"></script>
+
+
+</body>
+</html>

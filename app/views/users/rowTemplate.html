@@ -1,0 +1,36 @@
+<!-- display user details -->
+<tr name="@id" className="users" data-id=''>
+    <td class="align-middle" name="id" hidden=true></td>
+    <td class="W10 align-middle" name="name"></td>
+    <td class="W15 align-middle" name="email"></td>
+    <td name="idUserProfile" hidden=true></td>
+    <td class="W6 align-middle text-center">
+        <div class="rounded px-md-4 mx-md-1 py-md-1" name="_UserProfile|color">
+            <a name="_UserProfile|name"'></a>
+        </div>
+    </td>
+    <td name="idUserStatus" hidden=true></td>
+    <td class="W6 align-middle text-center">
+        <div class="rounded px-md-4 mx-md-1 py-md-1" name="_UserStatus|color">
+            <a class="" name="_UserStatus|name"></a>
+        </div>
+    </td>
+    <td class="W6 align-middle" title="creationDateTime" name="_createdByName"></td>
+    <td class="W6 align-middle" title="lastUpdateDateTime" name="_lastUpdateByName"></td>
+    <td class='ACT align-middle'>
+        <div>
+            <!-- edit user button -->
+            <a href='#' class='btn btn-sm btn-outline-primary rowUserAction' title='Modifier' data-action='edit'>
+                <i class="fa fa-edit"></i>
+            </a>
+            <!-- change password button -->
+            <a href='#' class='btn btn-sm btn-outline-info rowUserAction' title='Chnager le mot de passe' data-action='password'>
+                <i class="fa fa-key"></i>
+            </a>
+            <!-- delete product button -->
+            <a href='#' class='btn btn-sm btn-outline-danger rowUserAction' title='Supprimer' data-action='delete'>
+                <i class="fa fa-trash-alt"></i>
+            </a>
+        </div>
+    </td>
+</tr>

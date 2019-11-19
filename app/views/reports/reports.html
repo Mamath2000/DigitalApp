@@ -1,0 +1,125 @@
+<style media="screen">
+
+input.wwwform-control {
+  width: 5em;
+}
+
+.dataError {
+  border-color: rgb(255, 0, 0);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+}
+
+.dataChange {
+  border-color: lightblue;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(0, 0, 255, 0.6);
+}
+
+.dataSaved {
+  border-color: #00FF00;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(0,255, 0, 0.6);
+}
+
+.clickable {
+  background: lightgray!important;
+}
+
+.clickable:hover {
+  background: gray!important;
+  cursor: pointer;
+}
+
+
+thead {
+  width: 100%;
+  display:block;
+}
+
+tbody {
+  width: 100%;
+  overflow-y: auto;	
+  display:block;
+}
+
+td, .autoCol {
+  width: 6% !important;
+}
+  
+.thFirst {
+  width: 10%;
+}
+
+button {
+  width: 200px;
+}
+
+</style>
+
+<form enctype="multipart/form-data" id="dataGridSearchForm" role='post'>
+    <div class="form-group row pt-5 pb-0  align-items-center">
+      <label for="forComboYear" class="col-sm-1 col-form-label">Année :</label>
+      <div class="col-sm-1">
+        <select class='form-control' id="forComboYear" name="year">
+          <option value=""></option>
+        </select>
+      </div>
+      <label for="forComboAssociates" class="col-sm-1 col-form-label">Associé :</label>
+      <div class="col-sm-2">
+        <select class='form-control' id="forComboAssociates" name="idAssociates">
+          <option value=""></option>
+        </select>
+      </div>
+      <input class='form-control' id="idReports" name="idReports" hidden>
+    <!-- search form -->
+    <!-- "<div class='input-group col-md-3 pull-left margin-right-1em'> -->
+      <div class="col- mr-auto">
+        <button id="btnRefreshDataGrid" class='btn btn-outline-dark' type='button'><i class="fa fa-sync mr-2"></i>Afficher</button>
+      </div>
+      <div class="col- ml-auto">
+        <button id="btnCalculDataGrid" class='btn btn-outline-dark' hidden type='button'><i class="fa fa-sync mr-2"></i>(re)Calcul du Rapport</button>
+      </div>
+      <div class="col- ml-auto">
+        <button id="btnLockDataGrid" class='btn btn-outline-dark' hidden type='button'><i class="fa fa-lock mr-2"></i>Verrouillage</button>
+        <button id="btnUnLockDataGrid" class='btn btn-dark' hidden type='button'><i class="fa fa-unlock mr-2"></i>Déverrouillage</button>
+      </div>
+      <div class="col- ml-auto pr-4">
+        <button id="btnSaveDataGrid" class='btn btn-outline-danger' hidden type='button' disabled><i class="fa fa-save mr-2"></i>Sauvegarder</button>
+      </div>
+    </div>
+</form>
+<!--display the table if the number of Associates retrieved was greater than zero-->
+<div class="row justify-content-md-center py-1">
+  <div class="col-">
+    <div class="container-fluid">
+      <div hidden=true id=dataGridChanges>0</div>
+      <table id='listTable' hidden class='table table-hover table-fixed table-sm'>
+
+        <!-- div   headers -->
+        <thead head class='thead-dark'>
+          <tr>
+        <!--    <th style="width: -moz-min-content !important;">Grp</th> -->
+            <th class="thFirst"></th>
+            <th class="autoCol align-middle">Juil.</th>
+            <th class="autoCol align-middle">Août</th>
+            <th class="autoCol align-middle">Sept.</th>
+            <th class="autoCol align-middle">Oct.</th>
+            <th class="autoCol align-middle">Nov.</th>
+            <th class="autoCol align-middle">Déc.</th>
+            <th class="autoCol align-middle">Jan.</th>
+            <th class="autoCol align-middle">Fév.</th>
+            <th class="autoCol align-middle">Mars</th>
+            <th class="autoCol align-middle">Avr.</th>
+            <th class="autoCol align-middle">Mai</th>
+            <th class="autoCol align-middle">Juin</th>
+            <th class="autoCol align-middle" title='Montant annuel pris en compte mensuellement'>Proj. mensuelle</th>
+            <th class="autoCol align-middle" title='Montant annuel ne pouvant pas être mensualisé'>Annuelle</th>
+            <th class="autoCol align-middle">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tfoot>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>

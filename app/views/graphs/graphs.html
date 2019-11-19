@@ -1,0 +1,36 @@
+<style>
+    canvas {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+</style>
+<script src="app/views/graphs/graphs.js"></script>
+
+
+<form enctype="multipart/form-data" id="dataGraphSearchForm" role='post'>
+    <div class="form-group row pt-5 pb-0  align-items-center">
+      <label for="forGraphComboYear" class="col-sm-1 col-form-label">Année :</label>
+      <div class="col-sm-1">
+        <select class='form-control' id="forGraphComboYear" name="year">
+          <option value=""></option>
+        </select>
+      </div>
+      <label for="forGraphComboAssociates" class="col-sm-1 col-form-label">Associé :</label>
+      <div class="col-sm-2">
+        <select class='form-control' id="forGraphComboAssociates" name="idAssociates">
+          <option value=""></option>
+        </select>
+      </div>
+      <input class='form-control' id="idGraphs" name="idGraphs" hidden>
+    <!-- search form -->
+    <!-- "<div class='input-group col-md-3 pull-left margin-right-1em'> -->
+      <div class="col- mr-auto">
+        <button id="btnRefreshDataGraph" class='btn btn-outline-dark' type='button'><i class="fa fa-sync mr-2"></i>Afficher</button>
+      </div>
+    </div>
+</form>
+<div class='page-content'>
+    	<canvas id="myChart"></canvas>
+	
+</div>
