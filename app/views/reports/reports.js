@@ -121,7 +121,10 @@ function onComboLoading() {
 }
 
 function resizeContainer() {
-    $('#listTable tbody').height(eval($(window).height()-350));
+    //ratio =eval($(window).height()/$(window).width());
+    $("#myChart").height($(window).height()-200);
+    $("#myChart").width($(window).width()-30);
+    //$('#listTable tbody').height(eval($(window).height()-400));
 }
 
 //this function lock or unlock the selected report
