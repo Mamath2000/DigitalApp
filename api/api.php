@@ -42,7 +42,7 @@ $authorizedActions = array(
 
 //decompose l'URL pour récupérer la Class l'option et les datas
 if (!getQueryRessources($action, $class, $id, $subClass, $param, $content)) 
-        returnError (400, "Bad Request", 'method '.$action.' not taken into acocunt in this API');
+        returnError (400, "Bad Request", 'method '.$action.' not taken into account in this API');
 
 // Check if  JWT is OK !
 include_once "{$folder}tools/checkJWT.php";

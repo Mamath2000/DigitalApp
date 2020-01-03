@@ -1,11 +1,32 @@
 <?php
     return [
-        'Api_ver'         => "1.0.1",
-        'paramDbHost'     => "192.168.1.196", //"127.0.0.1",
-        'paramDbPort'     => "3306",
-        'paramDbUser'     => "DA", //"test",
-        'paramDbPassword' => "7Y692S@u&2", //"Test2019",
-        'paramDbName'     => "DA",
+        'Api_ver'         => "1.0.2",
+        'sqlServers'      => 
+            ['dev1' => 
+                ['paramDbHost'     => "127.0.0.1", //"127.0.0.1",
+                'paramDbPort'     => "3306",
+                'paramDbUser'     => "digital", //"test",
+                'paramDbPassword' => "digital", //"Test2019",
+                'paramDbName'     => "DA"],
+            'dev2' => 
+                ['paramDbHost'     => "127.0.0.1", //"127.0.0.1",
+                'paramDbPort'     => "3306",
+                'paramDbUser'     => "digital", //"test",
+                'paramDbPassword' => "digital", //"Test2019",
+                'paramDbName'     => "digital"],
+            'int1' => 
+                ['paramDbHost'     => "192.168.1.196", //"127.0.0.1",
+                'paramDbPort'     => "3306",
+                'paramDbUser'     => "digital", //"test",
+                'paramDbPassword' => "digital", //"Test2019",
+                'paramDbName'     => "DA"],
+            'prod' => 
+                ['paramDbHost'     => "192.168.1.196", //"127.0.0.1",
+                'paramDbPort'     => "3306",
+                'paramDbUser'     => "digital", //"test",
+                'paramDbPassword' => "digital", //"Test2019",
+                'paramDbName'     => "DA"],
+            ],
         'logFile'         => "/var/log/da/da.log",
         'logLevel'        => 3,
         'debugQuery'      => true,

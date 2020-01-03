@@ -9,7 +9,7 @@ include_once "{$folder}libs/php-jwt-master/src/JWT.php";
 
 use \Firebase\JWT\JWT;
 
-function createToken($user, $noExpire = false)
+function createToken($user, $noExpire = false, $server)
 {
 
     // variables used for jwt
@@ -32,6 +32,7 @@ function createToken($user, $noExpire = false)
             "email" => $user->email,
             "idUserProfile" => $user->idUserProfile,
             "idUserStatus" =>  $user->idUserStatus, 
+            "dbServer" => $server,
             "Api_version" => $Api_ver
         )
     );

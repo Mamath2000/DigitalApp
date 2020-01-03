@@ -1,10 +1,25 @@
 <?php
 
+// Functions to set the key (dbname) of session
+function setSessionKey($key){
+    global $sessionKey;
+    $sessionKey = $key;
+}
+
+// Functions to Get the key (dbname) of session
+function getSessionKey(){
+    global $sessionKey;
+    if (!isset($sessionKey)) {
+        $sessionKey = "_tmp";
+    } else {
+        return $sessionKey;
+    }
+}
+
 // Functions to set and retrieve data from SESSION : do not use direct $_SESSION
 function setSessionValue($code, $value)
 {
-    global $paramDbName;
-    $DASession='DA_'.$paramDbName;
+    $DASession = 'DA_'. getSessionKey();
 
     if (!isset($_SESSION[$DASession])) $_SESSION[$DASession]=array();
     $_SESSION[$DASession][$code]=$value;
@@ -13,8 +28,7 @@ function setSessionValue($code, $value)
 //**   */
 function unsetSessionValue($code)
 {
-    global $paramDbName;
-    $DASession='DA_'.$paramDbName;
+    $DASession = 'DA_'. getSessionKey();
 
     if (!isset($_SESSION[$DASession])) return null;
     if (isset($_SESSION[$DASession][$code])) unset($_SESSION[$DASession][$code]);
@@ -22,8 +36,7 @@ function unsetSessionValue($code)
 
 function getSessionValue($code, $default=null)
 {
-    global $paramDbName;
-    $DASession='DA_'.$paramDbName;
+    $DASession = 'DA_'. getSessionKey();
     
     if (!isset($_SESSION[$DASession])) return $default;
     if (!isset($_SESSION[$DASession][$code])) return $default;
@@ -32,8 +45,7 @@ function getSessionValue($code, $default=null)
 
 function isSessionValueExists($code)
 {
-    global $paramDbName;
-    $DASession='DA_'.$paramDbName;
+    $DASession = 'DA_'. getSessionKey();
 
     if (!isset($_SESSION[$DASession])) return false;
     

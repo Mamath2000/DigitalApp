@@ -240,8 +240,8 @@ abstract class SqlElement
         }
 
         $query = "insert into " . $this->getDatabaseTableName();
-        $queryColumns = join($queryColumnsArray, ", ");
-        $queryValues = ":" . join($queryColumnsArray, ", :");
+        $queryColumns = join(", ", $queryColumnsArray);
+        $queryValues = ":" . join(", :", $queryColumnsArray);
         $query .= " ($queryColumns) values ($queryValues)";
 
         // execute request
@@ -393,7 +393,7 @@ abstract class SqlElement
 
             // Création de la requete
             $query = "update " . $this->getDatabaseTableName();
-            $query .= " set " . join($arrayCols, ", ");
+            $query .= " set " . join(", ", $arrayCols);
             $query .= ' where id=:_id';
             $bindArray['_id'] = $this->id;
 

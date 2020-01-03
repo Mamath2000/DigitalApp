@@ -219,14 +219,13 @@ class Sql
         }
 
         if (!self::$_dbHost or !self::$_dbName or !self::$_dbPort) {
-            self::$_dbHost = Parameter::getGlobalParameter('paramDbHost');
-            self::$_dbPort = Parameter::getGlobalParameter('paramDbPort');
-            self::$_dbUser = Parameter::getGlobalParameter('paramDbUser');
-            self::$_dbPassword = Parameter::getGlobalParameter('paramDbPassword');
-            self::$_dbName = Parameter::getGlobalParameter('paramDbName');
-
-            global $paramDbName;
-            $paramDbName = Parameter::getGlobalParameter('paramDbName');
+            $dbServer = getSessionValue('dbServer');
+            
+            self::$_dbHost = Parameter::getDbParameter('paramDbHost', $dbServer);
+            self::$_dbPort = Parameter::getDbParameter('paramDbPort', $dbServer);
+            self::$_dbUser = Parameter::getDbParameter('paramDbUser', $dbServer);
+            self::$_dbPassword = Parameter::getDbParameter('paramDbPassword', $dbServer);
+            self::$_dbName = Parameter::getDbParameter('paramDbName', $dbServer);
         }
 
         ini_set('mysql.connect_timeout', 10);
