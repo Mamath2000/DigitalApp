@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+    $('#dlg-content').load('./app/views/profil/profil.html');
+    
+
     if (isConnect()) {
 
         $.ajax({
@@ -77,6 +80,13 @@ $(document).ready(function () {
                 break;
 
             case "NavUserProfile":
+                if (!localStorage.getItem('UserIdAssociates')) {
+                    $('#dlgInputId').val(false);
+                } else {
+                    $('#dlgInputId').val(localStorage.getItem('UserIdAssociates'))
+                }
+                $('#modalProfil').modal('show');
+
                 break;
 
             case "NavUser":        // show Home screen
