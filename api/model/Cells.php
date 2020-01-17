@@ -176,14 +176,9 @@ class Cells extends SqlElement
         foreach ($dataArray as $key => $value) {
             if (property_exists($this, $key)) {
                 if ($key === "source") {
-                    //                    if ($this->source) {
-                    if ($value == 'manual' || $value == 'import') { // La modification manuelle et import sont prioritaire
-                    } else if ($value == 'calculated') { // modification du champs impossible
-                        self::$_fieldsAttributes['source'] .= ",readonly";
-                    } else {
+                    if ($this->source==='manual' && $value !== 'manual' ) { //manual change are priorize
                         self::$_fieldsAttributes['source'] .= ",readonly";
                     }
-                    //                   } 
                 }
                 $this->$key = $value;
             }

@@ -187,8 +187,24 @@ class AssociatesFactory extends Factory
         $year          = isset($payload->year) ?        (int)$payload->year : null;
         $idReports     = isset($payload->idReports) ?   (int)$payload->idReports : null;
     
-        if (!$year || !$id || !$idReports) return self::setReturn(400, "Bad Request", "Requête REST invalide");
-    
+        if (!$year || !$id || !$idReports) return self::setReturn(400, "Bad Request", "Requête REST invalide");        
+        
+
+        // Update line total. 
+        $linesDef = new LinesDef(); 
+
+        $result = $linesDef->getLinesDef($year);
+
+        foreach ($result as $LineObj) {
+
+            if ($LineObj["hasAutoSum"]) {
+                $linesDef = new LinesDef($LineObj["id"]);
+                $linesDef->updateSum($year, $id);   
+            }
+
+        }
+
+        // Update column formula
         $LineCalcPath = Reports::getReportsCalcPath($idReports);
     
         $returnArray = array();

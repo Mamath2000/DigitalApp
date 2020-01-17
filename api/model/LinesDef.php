@@ -144,6 +144,31 @@ class LinesDef extends SqlElement
 
     /**
      * ==========================================================================
+     * Get liste of Lines Def
+     *  
+     * @param idReports
+     * @param year
+     * 
+     * @return object
+     */
+
+    public function getLinesDef($year){
+    
+        $validityEndDate =  date_format(date_create(($year) . '-07-01'), 'Y-m-d');
+
+        $sqlWhereArray = array();
+        $sqlWhereArray['validityEndDate'] = (object) [
+                "ope" => ">=", 
+                "val" => $validityEndDate, 
+                "fx" => "DATE_FORMAT(<|fx.key|>, '%Y%m')"];
+
+        $result = self::getSqlElementsFromCriteria($sqlWhereArray);
+
+        return $result;
+    }
+
+    /**
+     * ==========================================================================
      * Calcul calculRowFormula
      *
      * @return object
@@ -155,45 +180,40 @@ class LinesDef extends SqlElement
 
         $returnArray = array();
         $errorArray = array();
-        $idx=0; 
         
         foreach ($cellArray as $month=>$cells) {
             $type_arr   = array();
             $paramArray = array();
             foreach ($cells as $code=>$Object) {
-                $paramArray[$code]=$Object['value'];
+                $paramArray[$code]=(double)$Object['value'];
             }
             
-            $validityEndDate =  date_format(date_create(($year) . '-07-01'), 'Y-m-d');
-
-            $sqlWhereArray = array();
-            $sqlWhereArray['validityEndDate'] = (object) [
-                    "ope" => ">=", 
-                    "val" => $validityEndDate, 
-                    "fx" => "DATE_FORMAT(<|fx.key|>, '%Y%m')"];
-
-            $result = self::getSqlElementsFromCriteria($sqlWhereArray);
+            //Get All Active Lines Def for the Year
+            $result = self::getLinesDef($year);
 
             foreach ($result as $key => $value) {
                 if (!$value['canNull'] && !array_key_exists($value['code'], $paramArray)) {
                     $paramArray[$value['code']] = 0;
                 }
             }
-            
+            //MBE
+            unset($calTools );
             $calTools = new fxCalculate($this->calculationRule, $paramArray);
             
+
             if ($month=='TOTAL') {
                 $dateValue =  date_format(date_create(($year+1) . '-06-30'), 'Y-m-d');
+                $realYear = $year+1;
             } else {
                 $dateValue = date_format(date_create(substr($month,0,4) . '-' . substr($month,4,2) . '-01'), 'Y-m-d');
+                $realYear = substr($month,0,4);
             }
             if ($calTools->calculIsOk()) { 
-                
                 //Insert or Update the Value
                 $type_arr["idLinesDef"]     = $this->id;
                 $type_arr["idAssociates"]   = $idAssociates;
                 $type_arr["refLabel"]       = $month;
-                $type_arr["year"]           = $year;
+                $type_arr["year"]           = $realYear;
                 $type_arr["dateValueDate"]  = $dateValue;
                 $type_arr["dateRealDate"]   = $dateValue;
                 $type_arr["value"]          = $calTools->getResult();
@@ -205,11 +225,13 @@ class LinesDef extends SqlElement
                     "rawValue"  => $calTools->getResult(true)
                 );
 
+                if ($type_arr["value"] == 0) $type_arr["value"] = '';
+
             } else {
                 $type_arr["idLinesDef"]     = $this->id;
                 $type_arr["idAssociates"]   = $idAssociates;
                 $type_arr["refLabel"]       = $month;
-                $type_arr["year"]           = $year;
+                $type_arr["year"]           = $realYear;
                 $type_arr["dateValueDate"]  = $dateValue;
                 $type_arr["value"]          = '';
                 $type_arr["_infoCalc"] = array(
@@ -235,7 +257,6 @@ class LinesDef extends SqlElement
                 $errorArray[$month] = $type_arr;
             }
 
-            $idx++;
         }
 
         return (object)[
@@ -245,7 +266,6 @@ class LinesDef extends SqlElement
             "error"         => $errorArray
         ];
     }
-
 
     /**
      * ==========================================================================
@@ -261,7 +281,6 @@ class LinesDef extends SqlElement
 
         } else {
             return $this->_calculRowFormula($idAssociates, $year);
-
         }
     }
 
@@ -278,36 +297,50 @@ class LinesDef extends SqlElement
     public function updateSum($year, $idAssociates)
     {
 
-        if (!$this->hasAutoSum || !$this->id || !is_numeric($year) || !$idAssociates) return false;
+        if (!$this->hasAutoSum || $this->isCalculate || !$this->id || !is_numeric($year) || !$idAssociates) return false;
 
         $cellObj = new Cells();
         $cellRecords = $cellObj->getCellsByYear($year, $idAssociates, $this->id);
         
-        $id = null;
-        $Sum = (float) 0.0;
-        foreach ($cellRecords as $value) {
-            if ($value['refLabel'] != "TOTAL") {
-                $Sum += $value['value'];
-            } else {
-                $id = $value['id'];
+        if (count($cellRecords) !=0) {
+
+            $id = null;
+            $Sum = (float) 0.0;
+            $noValue = true;
+            foreach ($cellRecords as $value) {
+                if ($value['refLabel'] != "TOTAL") {
+                    $Sum += $value['value'];
+                    $noValue = false;
+                } else {
+                    $id = $value['id'];
+                }
             }
-        }
+            
+            if (!$noValue || true) {
+                $dateValue = new DateTime();
+                $dateValue->setDate($year + 1, 6, 30);
         
-        $dateValue = new DateTime();
-        $dateValue->setDate($year + 1, 6, 30);
+                $sumCell = new Cells($id);
+                $sumCell->idLinesDef     = (int)$this->id;
+                $sumCell->idAssociates   = (int)$idAssociates;
+                $sumCell->refLabel       = "TOTAL";
+                $sumCell->year           = (int)($year+1);
+                $sumCell->value          = $Sum;
+                $sumCell->source         = "calculated";
+                $sumCell->dateValueDate  = $dateValue->format('Y-m-d');
+                $sumCell->dateRealDate   = $dateValue->format('Y-m-d');
+                $sumCell->isReadonly     = 1;
+                
+                if ($sumCell->value==0) $sumCell->value='';
+                return $sumCell->save();
 
-        $sumCell = new Cells($id);
-        $sumCell->idLinesDef     = (int)$this->id;
-        $sumCell->idAssociates   = (int)$idAssociates;
-        $sumCell->refLabel       = "TOTAL";
-        $sumCell->year           = (int)$year;
-        $sumCell->value          = $Sum;
-        $sumCell->source         = "calculated";
-        $sumCell->dateValueDate  = $dateValue->format('Y-m-d');
-        $sumCell->dateRealDate   = $dateValue->format('Y-m-d');
-        $sumCell->isReadonly     = 1;
+            } else if ($noValue && $id) {
+                $sumCell = new Cells($id);
+                return $sumCell->delete();
 
-        return $sumCell->save();
+            }
+
+        } 
     }
 
     /**
