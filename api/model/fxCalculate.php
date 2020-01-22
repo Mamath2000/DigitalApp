@@ -46,15 +46,16 @@ class fxCalculate
             $this->_paramArray[$param[1]]=chr($charNum);
             $this->paramValuesArray[$param[1]]="";
             $search[]=$param[0];
-            $replace[]=chr($charNum);
+            $replace[]=" ".chr($charNum)." ";
             $charNum++;
+            if ('e'==chr($charNum)) $charNum++;
         }
 
         $this->formula = str_replace($search, $replace, $this->_formula);
 
         if ($paramArray) {
             $this->paramValuesArray = $paramArray;
-            $this->calcualte();
+            $this->calculate();
         }
     }
 
@@ -146,7 +147,7 @@ class fxCalculate
      *
      * @return boolean
      */
-    public function calcualte($paramArray = null, $roundDigit = 2)
+    public function calculate($paramArray = null, $roundDigit = 2)
     {
 
         if (!$paramArray) $paramArray = $this->paramValuesArray;
@@ -164,7 +165,7 @@ class fxCalculate
         $AST = $parser->parse($this->formula);
         
         // Do something with the AST, e.g. evaluate the expression:
-        $evaluator = new Evaluator();
+        $evaluator = new Evaluator( );
         
         $evaluator->setVariables($newParamArray);
         try {

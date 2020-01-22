@@ -6,7 +6,7 @@
                 ['paramDbHost'     => "192.168.1.196",
                 'paramDbPort'     => "3306",
                 'paramDbUser'     => "da",
-                'paramDbPassword' => "$EZ9cs&&9R*qCW8T*#L&ne3N6PjFV2F9",
+                'paramDbPassword' => "\$EZ9cs&&9R*qCW8T*#L&ne3N6PjFV2F9",
                 'paramDbName'     => "da"],
             ],
         'logFile'         => "/var/log/da/da.log",
