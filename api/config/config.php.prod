@@ -3,11 +3,11 @@
         'Api_ver'         => "1.0.2",
         'sqlServers'      => 
             ['prod' => 
-                ['paramDbHost'     => "192.168.1.196", //"127.0.0.1",
+                ['paramDbHost'     => "192.168.1.196",
                 'paramDbPort'     => "3306",
-                'paramDbUser'     => "digital",
-                'paramDbPassword' => "digital",,
-                'paramDbName'     => "DA"],
+                'paramDbUser'     => "da",
+                'paramDbPassword' => "$EZ9cs&&9R*qCW8T*#L&ne3N6PjFV2F9",
+                'paramDbName'     => "da"],
             ],
         'logFile'         => "/var/log/da/da.log",
         'logLevel'        => 3,
