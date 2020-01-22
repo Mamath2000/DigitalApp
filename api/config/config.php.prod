@@ -7,7 +7,7 @@
                 'paramDbPort'     => "3306",
                 'paramDbUser'     => "DA_user",
                 'paramDbPassword' => "P91SsAjGIlJqSkE8",
-                'paramDbName'     => "da"],
+                'paramDbName'     => "DA"],
             ],
         'logFile'         => "/var/log/da/da.log",
         'logLevel'        => 3,
