@@ -63,87 +63,6 @@ class LinesDef extends SqlElement
 
     /**
      * ==========================================================================
-     * Calcul cells
-     *
-     * @return object
-     */
-    private function _calculRowANNR($idAssociates = null, $year = null) {
-        $cellObj = new Cells();
-    
-        $cellArray = $cellObj->getCodeFormatYearData($year, $idAssociates, $this->id);
-
-        if (array_key_exists("ANNR", $cellArray) && array_key_exists($this->code, $cellArray['ANNR'])) {
-
-            $annualVal = $cellArray["ANNR"][$this->code]->value;
-            $Associate = new Associates($idAssociates);
-            
-            $startDate = new DateTime($year . "-07-01", new DateTimeZone("UTC"));
-            $nbMonth   = 0;
-            $cellArray = array();
-            for ($i=1; $i <= 12; $i++) { 
-                
-                $endDate = clone $startDate;
-                $endDate->add(new DateInterval("P1M"));
-
-                if (!($Associate->startDate < $startDate && $Associate->endDate >= $endDate)) {
-                    $nbMonth++;
-                    $cellArray[$startDate->format('Ym')] = $startDate->format('Y-m-d');
-                }
-
-                $startDate->add(new DateInterval("P1M"));
-            }
-            $returnArray =  array();
-            $errorArray  =  array();
-            foreach ($cellArray as $dateRef=>$dateValue) {
-                
-                $type_arr = array();
-
-                //Insert or Update the Value
-                $type_arr["idLinesDef"]      = $this->id;
-                $type_arr["idAssociates"]    = $idAssociates;
-                $type_arr["refLabel"]       = $dateRef;
-                $type_arr["year"]           = $year;
-                $type_arr["dateValueDate"]  = $dateValue;
-                $type_arr["dateRealDate"]   = $dateValue;
-                $type_arr["value"]          = round($annualVal/$nbMonth, 2);
-                $type_arr["source"]         = 'calculated';
-                $type_arr["isReadonly"]     = $this->isReadonly;
-                $type_arr["_infoCalc"] = array(
-                    "status"    => "OK",
-                    "message"   => "Calcul OK",
-                    "rawValue"  => $annualVal/$nbMonth
-                );
-
-                //Update the Cells (Insert / Update / Delete)
-                $cellObj= new Cells();
-                $result = $cellObj->store($type_arr);    
-                
-                $type_arr["_info"] = array();
-                $type_arr["_info"]['status'] = $result->status;
-                $type_arr["_info"]['message'] = $result->message;
-
-                if (property_exists($result, "action")) {
-                    $type_arr["_info"]['action'] = $result->action;
-                    $returnArray[$dateRef] = $type_arr;
-                
-                } else {
-                    $type_arr["_info"]['data'] = $result->data;
-                    $errorArray[$dateRef] = $type_arr;
-                }
-            }
-
-            return (object)[
-            "status"        => "OK",
-            "message"       => "",
-            $this->code     => $returnArray, 
-            "error"         => $errorArray];
-
-        }
-        
-    }
-
-    /**
-     * ==========================================================================
      * Get liste of Lines Def
      *  
      * @param idReports
@@ -276,12 +195,7 @@ class LinesDef extends SqlElement
     function calculCells($idAssociates = null, $year = null) {
         if (!$this->id || !$this->isCalculate || !$this->calculationRule) return false;
 
-        if ($this->calculationRule== 'ANNR') {
-            return $this->_calculRowANNR($idAssociates, $year);
-
-        } else {
-            return $this->_calculRowFormula($idAssociates, $year);
-        }
+        return $this->_calculRowFormula($idAssociates, $year);
     }
 
     /**

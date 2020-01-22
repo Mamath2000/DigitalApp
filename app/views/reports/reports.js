@@ -453,21 +453,6 @@ function updateDataGridRowFromArray(htmlRow, lineRef = null, dataValue) {
         htmlRow.find('i.isCalc').removeAttr("hidden");
     }
 
-    if (sTypeLine=="MENS") {
-        htmlRow.find("input[name='ANN']").remove();
-        htmlRow.find("input[name='ANNR']").remove();
-
-    } else if (sTypeLine=="ANN") {
-        htmlRow.find("input[name!='ANN'][name!='TOTAL']").remove();
-        htmlRow.find("input[name='ANN']").removeAttr("disabled")
-
-    } else if (sTypeLine=="ANNR") {
-        htmlRow.find("input[name='ANN']").remove();
-        htmlRow.find("input[name!='TOTAL'][name!='ANNR']").attr("disabled", "");;
-        htmlRow.find("input[name='ANNR']").removeAttr("disabled")
-
-    }
-
     if (!hasAutoSum) htmlRow.find("input[name='TOTAL']").remove();
 
     vInput = htmlRow.find('input');
